@@ -3,7 +3,7 @@ package com.example.anative
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.anative.databinding.ActivityMainBinding
-import java.util.concurrent.TimeUnit
+import kotlin.math.sqrt
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,42 +28,80 @@ class MainActivity : AppCompatActivity() {
             var output: String = ""
 
             // Dalvik - Recursive
-            start = System.currentTimeMillis()
+            start = System.nanoTime()
             var result: Int = fibJ(input)
-            stop = System.currentTimeMillis()
+            stop = System.nanoTime()
             output += String.format(
-                "Dalvik recursive: %d (%d msec)",
+                "Dalvik recursive: %d (%d nsec)",
                 result,
                 stop - start
             )
-
             // Dalvik - Iterative
-            start = System.currentTimeMillis()
+            start = System.nanoTime()
             result = fibJI(input)
-            stop = System.currentTimeMillis()
+            stop = System.nanoTime()
             output += String.format(
-                "\nDalvik iterative: %d (%d msec)",
+                "\nDalvik iterative: %d (%d nsec)",
                 result,
                 stop - start
             )
 
             // Native - Recursive
-            start = System.currentTimeMillis()
+            start = System.nanoTime()
             result = fibN(input)
-            stop = System.currentTimeMillis()
+            stop = System.nanoTime()
             output += String.format(
-                "\nNative recursive: %d (%d msec)",
+                "\nNative recursive: %d (%d nsec)",
+                result,
+                stop - start
+            )
+            // Native - Iterative
+            start = System.nanoTime()
+            result = fibNI(input)
+            stop = System.nanoTime()
+            output += String.format(
+                "\nNative iterative: %d (%d nsec)",
                 result,
                 stop - start
             )
 
-            // Native - Iterative
-            start = System.currentTimeMillis()
-            result = fibNI(input)
-            stop = System.currentTimeMillis()
+            // Loop Dalvik
+            start = System.nanoTime()
+            result = loopJ(input * 10000)
+            stop = System.nanoTime()
             output += String.format(
-                "\nNative iterative: %d (%d msec)",
+                "\nJ: %d (%d nsec)",
                 result,
+                stop - start
+            )
+
+            // Loop Native
+            start = System.nanoTime()
+            result = loopN(input * 10000)
+            stop = System.nanoTime()
+            output += String.format(
+                "\nN: %d (%d nsec)",
+                result,
+                stop - start
+            )
+
+            // Prime Dalvik
+            start = System.nanoTime()
+            var resultBool: Boolean = isPrimeJ(input.toLong())
+            stop = System.nanoTime()
+            output += String.format(
+                "\nJ: %b (%d nsec)",
+                resultBool,
+                stop - start
+            )
+
+            // Prime Native
+            start = System.nanoTime()
+            resultBool = isPrimeN(input.toLong())
+            stop = System.nanoTime()
+            output += String.format(
+                "\nN: %b (%d nsec)",
+                resultBool,
                 stop - start
             )
 
@@ -80,21 +118,55 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fibJI(n: Int): Int {
-        var previous = -1
-        var result = 1
+        var previous: Int = -1
+        var result: Int = 1
         for (i in 0..n) {
-            val sum = result + previous
+            val sum: Int = result + previous
             previous = result
             result = sum
         }
         return result
     }
 
+    private fun loopJ(count: Int): Int {
+        var result = 0
+        for (i in 0 until count) {
+            for (j in 0..99) {
+                result += 34432
+                result++
+                result -= 34431
+                result--
+            }
+        }
+        return result
+    }
+
+    private fun isPrimeJ(a: Long): Boolean {
+        if (a == 2L) {
+            return true
+        } else if (a <= 1 || a % 2 == 0L) {
+            return false
+        }
+        val max = sqrt(a.toDouble()).toLong()
+        var n: Long = 3
+        while (n <= max) {
+            if (a % n == 0L) {
+                return false
+            }
+            n += 2
+        }
+        return true
+    }
+
     private external fun introFromJni(): String
 
     private external fun fibN(n: Int): Int
 
-    external fun fibNI(n: Int): Int
+    private external fun fibNI(n: Int): Int
+
+    private external fun loopN(n: Int): Int
+
+    private external fun isPrimeN(a: Long): Boolean
 
     companion object {
         // Used to load the 'anative' library on application startup.
