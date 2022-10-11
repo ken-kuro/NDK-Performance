@@ -21,38 +21,62 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/output"
+        android:id="@+id/output_java"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="@string/result"
+        android:text="@string/result_java"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/output_native"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/action_java" />
+
+    <TextView
+        android:id="@+id/output_native"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="@string/result_native"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action" />
+        app:layout_constraintTop_toBottomOf="@+id/output_java" />
 
     <Button
-        android:id="@+id/action"
+        android:id="@+id/action_java"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/calculate"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/calculate_java"
+        app:layout_constraintEnd_toStartOf="@+id/action_native"
         app:layout_constraintStart_toEndOf="@+id/input"
+        app:layout_constraintTop_toBottomOf="@+id/intro" />
+
+    <Button
+        android:id="@+id/action_native"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/calculate_native"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/action_java"
         app:layout_constraintTop_toBottomOf="@+id/intro" />
 
     <EditText
         android:id="@+id/input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="@string/input_a_number"
         android:inputType="numberDecimal"
-        app:layout_constraintEnd_toStartOf="@+id/action"
+        app:layout_constraintEnd_toStartOf="@+id/action_java"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/action" />
+        app:layout_constraintTop_toTopOf="@+id/action_java" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

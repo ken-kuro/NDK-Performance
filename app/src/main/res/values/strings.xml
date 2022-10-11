@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Native</string>
     <string name="input_a_number">Input a number</string>
-    <string name="calculate">Calculate</string>
-    <string name="result">Result</string>
+    <string name="result_java">Result Java</string>
+    <string name="result_native">Result Native</string>
+    <string name="calculate_java">Java</string>
+    <string name="calculate_native">Native</string>
 </resources>

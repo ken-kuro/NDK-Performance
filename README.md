@@ -12,3 +12,6 @@ https://stackoverflow.com/questions/67423616/how-android-runtime-compiles-java-m
 * Port your native C/C++ code to Android.
 * Use C/C++ game engines and libraries (like Vulkan or TensorFlow).
 * Use platform-specific APIs not available in Android SDK.
+
+Profiler
+-> Take more resources ???

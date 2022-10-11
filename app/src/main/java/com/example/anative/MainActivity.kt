@@ -16,12 +16,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val introTextField = binding.intro
-        val actionButton = binding.action
+        val actionJavaButton = binding.actionJava
+        val actionNativeButton = binding.actionNative
         val inputTxtField = binding.input
-        val outputTxtField = binding.output
+        val outputJavaTxtField = binding.outputJava
+        val outputNativeTxtField = binding.outputNative
 
         introTextField.text = introFromJni()
-        actionButton.setOnClickListener {
+        actionJavaButton.setOnClickListener {
             val input = Integer.parseInt(inputTxtField.text.toString())
             var start: Long = 0
             var stop: Long = 0
@@ -46,9 +48,38 @@ class MainActivity : AppCompatActivity() {
                 stop - start
             )
 
+            // Loop Dalvik
+            start = System.nanoTime()
+            result = loopJ(input * 10000)
+            stop = System.nanoTime()
+            output += String.format(
+                "\nJ: %d (%d nsec)",
+                result,
+                stop - start
+            )
+
+            // Prime Dalvik
+            start = System.nanoTime()
+            var resultBool: Boolean = isPrimeJ(input.toLong())
+            stop = System.nanoTime()
+            output += String.format(
+                "\nJ: %b (%d nsec)",
+                resultBool,
+                stop - start
+            )
+
+            outputJavaTxtField.text = output
+        }
+
+        actionNativeButton.setOnClickListener {
+            val input = Integer.parseInt(inputTxtField.text.toString())
+            var start: Long = 0
+            var stop: Long = 0
+            var output: String = ""
+
             // Native - Recursive
             start = System.nanoTime()
-            result = fibN(input)
+            var result: Int = fibN(input)
             stop = System.nanoTime()
             output += String.format(
                 "\nNative recursive: %d (%d nsec)",
@@ -65,16 +96,6 @@ class MainActivity : AppCompatActivity() {
                 stop - start
             )
 
-            // Loop Dalvik
-            start = System.nanoTime()
-            result = loopJ(input * 10000)
-            stop = System.nanoTime()
-            output += String.format(
-                "\nJ: %d (%d nsec)",
-                result,
-                stop - start
-            )
-
             // Loop Native
             start = System.nanoTime()
             result = loopN(input * 10000)
@@ -85,19 +106,9 @@ class MainActivity : AppCompatActivity() {
                 stop - start
             )
 
-            // Prime Dalvik
-            start = System.nanoTime()
-            var resultBool: Boolean = isPrimeJ(input.toLong())
-            stop = System.nanoTime()
-            output += String.format(
-                "\nJ: %b (%d nsec)",
-                resultBool,
-                stop - start
-            )
-
             // Prime Native
             start = System.nanoTime()
-            resultBool = isPrimeN(input.toLong())
+            var resultBool: Boolean = isPrimeN(input.toLong())
             stop = System.nanoTime()
             output += String.format(
                 "\nN: %b (%d nsec)",
@@ -105,7 +116,7 @@ class MainActivity : AppCompatActivity() {
                 stop - start
             )
 
-            outputTxtField.text = output
+            outputNativeTxtField.text = output
         }
     }
 
